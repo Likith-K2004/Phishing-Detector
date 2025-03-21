@@ -1,0 +1,5 @@
+#result { text-align: center; padding: 10px; }
+#emoji { font-size: 50px; }
+#message { font-size: 20px; }
+.safe { background-color: #e0ffe0; }
+.phishing { background-color: #ffe0e0; }
