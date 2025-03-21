@@ -1,0 +1,26 @@
+{
+  "name": "Phishing Detector",
+  "version": "1.0",
+  "manifest_version": 3,
+  "host_permissions": [
+    "http://127.0.0.1:5000/*",
+    "http://localhost:5000/*"
+  ],
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "webNavigation"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+}
