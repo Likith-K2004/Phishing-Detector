@@ -1,19 +1,91 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Phishing Detector</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Detection</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.light {
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        body.dark {
+            background-color: #1e1e1e;
+            color: #f0f0f0;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            width: 100%;
+            max-width: 700px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            background-color: inherit;
+        }
+
+        .iconDisplay {
+            font-size: 4rem;
+            margin-right: 70px;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .status.safe {
+            color: #2e7d32;
+        }
+
+        .status.phishing {
+            color: #c62828;
+        }
+
+        .status.error {
+            color: #ef6c00;
+        }
+
+        .spinner {
+            border: 3px solid rgba(0, 0, 0, 0.2);
+            border-top: 3px solid #333;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
 </head>
 <body>
-    <div id="result">
-        <span id="emoji"></span>
-        <p id="message"></p>
-        <p id="confidence"></p>
+    <div class="container">
+        <div id="iconDisplay" class="iconDisplay">❓</div>
+        <div id="statusMessage" class="status">Checking...</div>
     </div>
-    <button id="feedback">I Disagree</button>
-    <button id="report">Report Phishing</button>
-    <div id="analytics"></div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="popup.js"></script>
 </body>
 </html>
