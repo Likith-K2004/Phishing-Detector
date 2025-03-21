@@ -502,5 +502,89 @@
       "redirect_count": 0,
       "similarity_flag": false
     }
+  },
+  {
+    "url": "https://www.linkedin.com/search/results/all/?fetchDeterministicClustersOnly=true&heroEntityKey=urn%3Ali%3Afsd_profile%3AACoAAAFGp0UBCNnQtJa2n_0LuzDFuJVbDL7d96A&keywords=raveen%20beemsingh&origin=RICH_QUERY_SUGGESTION&position=0&searchId=345aa582-1a19-4c56-9853-745cffd8ca71&spellCorrectionEnabled=false",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T21:39:06.258117",
+    "features": {
+      "suspicious_url_score": 0.7,
+      "domain_age_days": 7,
+      "has_ssl": false,
+      "redirect_count": 0,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://www.linkedin.com/search/results/all/?fetchDeterministicClustersOnly=true&heroEntityKey=urn%3Ali%3Afsd_profile%3AACoAAAFGp0UBCNnQtJa2n_0LuzDFuJVbDL7d96A&keywords=raveen%20beemsingh&origin=RICH_QUERY_SUGGESTION&position=0&searchId=345aa582-1a19-4c56-9853-745cffd8ca71&sid=HmG&spellCorrectionEnabled=false",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T21:39:06.263124",
+    "features": {
+      "suspicious_url_score": 0.7,
+      "domain_age_days": 30,
+      "has_ssl": false,
+      "redirect_count": 0,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://www.linkedin.com/in/raveenbeemsingh/",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T21:39:09.972358",
+    "features": {
+      "suspicious_url_score": 0.0,
+      "domain_age_days": 11,
+      "has_ssl": true,
+      "redirect_count": 1,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://www.linkedin.com/in/raveenbeemsingh/?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAAFGp0UBCNnQtJa2n_0LuzDFuJVbDL7d96A",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T21:39:10.089613",
+    "features": {
+      "suspicious_url_score": 0.2,
+      "domain_age_days": 2,
+      "has_ssl": false,
+      "redirect_count": 0,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://www.linkedin.com/search/results/all/?fetchDeterministicClustersOnly=true&heroEntityKey=urn%3Ali%3Afsd_profile%3AACoAAAFGp0UBCNnQtJa2n_0LuzDFuJVbDL7d96A&keywords=raveen%20beemsingh&origin=RICH_QUERY_SUGGESTION&position=0&searchId=345aa582-1a19-4c56-9853-745cffd8ca71&sid=HmG&spellCorrectionEnabled=false",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T21:52:15.513869",
+    "features": {
+      "suspicious_url_score": 0.7,
+      "domain_age_days": 16,
+      "has_ssl": false,
+      "redirect_count": 1,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://www.linkedin.com/search/results/all/?fetchDeterministicClustersOnly=true&heroEntityKey=urn%3Ali%3Afsd_profile%3AACoAAAFGp0UBCNnQtJa2n_0LuzDFuJVbDL7d96A&keywords=raveen%20beemsingh&origin=RICH_QUERY_SUGGESTION&position=0&searchId=345aa582-1a19-4c56-9853-745cffd8ca71&spellCorrectionEnabled=false",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T21:52:18.336888",
+    "features": {
+      "suspicious_url_score": 0.7,
+      "domain_age_days": 27,
+      "has_ssl": true,
+      "redirect_count": 0,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://www.linkedin.com/in/dhanush-a-1a8741277/",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T21:52:25.514474",
+    "features": {
+      "suspicious_url_score": 0.3,
+      "domain_age_days": 9,
+      "has_ssl": false,
+      "redirect_count": 1,
+      "similarity_flag": false
+    }
   }
 ]
