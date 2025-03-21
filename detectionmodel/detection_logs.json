@@ -1,0 +1,506 @@
+[
+  {
+    "url": "https://grok.com/chat/890a958e-46ab-4c9a-9d2f-2e6e482d3591",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T19:08:15.534021",
+    "features": {
+      "suspicious_url_score": 0.5,
+      "domain_age_days": 18,
+      "has_ssl": false,
+      "redirect_count": 0,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://vercel.com/new/templates?onboarding=true&search=saas",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T19:08:47.923980",
+    "features": {
+      "suspicious_url_score": 0.0,
+      "domain_age_days": 16,
+      "has_ssl": true,
+      "redirect_count": 1,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://huggingface.co/Qwen/QwQ-32B",
+    "isPhishing": true,
+    "timestamp": "2025-03-21T19:09:09.526448",
+    "features": {
+      "suspicious_url_score": 0.0,
+      "domain_age_days": 14,
+      "has_ssl": true,
+      "redirect_count": 0,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://grok.com/chat/890a958e-46ab-4c9a-9d2f-2e6e482d3591",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T19:10:20.839277",
+    "features": {
+      "suspicious_url_score": 0.5,
+      "domain_age_days": 27,
+      "has_ssl": false,
+      "redirect_count": 0,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://grok.com/chat/890a958e-46ab-4c9a-9d2f-2e6e482d3591",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T19:11:08.030637",
+    "features": {
+      "suspicious_url_score": 0.5,
+      "domain_age_days": 14,
+      "has_ssl": false,
+      "redirect_count": 1,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://grok.com/chat/890a958e-46ab-4c9a-9d2f-2e6e482d3591",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T19:12:50.835126",
+    "features": {
+      "suspicious_url_score": 0.5,
+      "domain_age_days": 10,
+      "has_ssl": false,
+      "redirect_count": 0,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://grok.com/chat/890a958e-46ab-4c9a-9d2f-2e6e482d3591",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T19:16:31.228751",
+    "features": {
+      "suspicious_url_score": 0.5,
+      "domain_age_days": 1,
+      "has_ssl": true,
+      "redirect_count": 0,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://grok.com/chat/890a958e-46ab-4c9a-9d2f-2e6e482d3591",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T19:17:24.738594",
+    "features": {
+      "suspicious_url_score": 0.5,
+      "domain_age_days": 23,
+      "has_ssl": false,
+      "redirect_count": 1,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://grok.com/chat/890a958e-46ab-4c9a-9d2f-2e6e482d3591",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T19:18:30.073344",
+    "features": {
+      "suspicious_url_score": 0.5,
+      "domain_age_days": 18,
+      "has_ssl": true,
+      "redirect_count": 0,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://grok.com/chat/890a958e-46ab-4c9a-9d2f-2e6e482d3591",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T19:20:24.429249",
+    "features": {
+      "suspicious_url_score": 0.5,
+      "domain_age_days": 4,
+      "has_ssl": false,
+      "redirect_count": 0,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://grok.com/chat/890a958e-46ab-4c9a-9d2f-2e6e482d3591",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T19:24:59.387203",
+    "features": {
+      "suspicious_url_score": 0.5,
+      "domain_age_days": 16,
+      "has_ssl": true,
+      "redirect_count": 0,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://claude.ai/logout",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T19:25:44.510827",
+    "features": {
+      "suspicious_url_score": 0.0,
+      "domain_age_days": 21,
+      "has_ssl": true,
+      "redirect_count": 0,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://claude.ai/login",
+    "isPhishing": true,
+    "timestamp": "2025-03-21T19:25:46.201227",
+    "features": {
+      "suspicious_url_score": 0.3,
+      "domain_age_days": 14,
+      "has_ssl": true,
+      "redirect_count": 5,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://claude.ai/new",
+    "isPhishing": true,
+    "timestamp": "2025-03-21T19:26:35.111993",
+    "features": {
+      "suspicious_url_score": 0.0,
+      "domain_age_days": 12,
+      "has_ssl": false,
+      "redirect_count": 0,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://claude.ai/new",
+    "isPhishing": true,
+    "timestamp": "2025-03-21T19:32:33.685633",
+    "features": {
+      "suspicious_url_score": 0.0,
+      "domain_age_days": 30,
+      "has_ssl": false,
+      "redirect_count": 0,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://claude.ai/chat/2a686fae-ef75-408c-8bba-0b8d85a8fbbd",
+    "isPhishing": true,
+    "timestamp": "2025-03-21T19:37:25.182686",
+    "features": {
+      "suspicious_url_score": 0.2,
+      "domain_age_days": 18,
+      "has_ssl": false,
+      "redirect_count": 1,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://claude.ai/chat/2a686fae-ef75-408c-8bba-0b8d85a8fbbd",
+    "isPhishing": true,
+    "timestamp": "2025-03-21T19:43:01.496784",
+    "features": {
+      "suspicious_url_score": 0.2,
+      "domain_age_days": 22,
+      "has_ssl": true,
+      "redirect_count": 1,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://www.linkedin.com/in/dhanush-a-1a8741277/",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T19:44:47.707100",
+    "features": {
+      "suspicious_url_score": 0.3,
+      "domain_age_days": 3,
+      "has_ssl": true,
+      "redirect_count": 0,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://www.linkedin.com/company/kridaverse/?originalSubdomain=in",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T19:44:57.590877",
+    "features": {
+      "suspicious_url_score": 0.0,
+      "domain_age_days": 5,
+      "has_ssl": false,
+      "redirect_count": 0,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://grok.com/chat/890a958e-46ab-4c9a-9d2f-2e6e482d3591",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T20:00:19.706116",
+    "features": {
+      "suspicious_url_score": 0.5,
+      "domain_age_days": 11,
+      "has_ssl": false,
+      "redirect_count": 1,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://vercel.com/new/templates?onboarding=true&search=saas",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T20:03:44.818136",
+    "features": {
+      "suspicious_url_score": 0.0,
+      "domain_age_days": 12,
+      "has_ssl": true,
+      "redirect_count": 1,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://vercel.com/new/templates?onboarding=true&search=saas",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T20:03:56.182633",
+    "features": {
+      "suspicious_url_score": 0.0,
+      "domain_age_days": 24,
+      "has_ssl": false,
+      "redirect_count": 1,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://grok.com/chat/890a958e-46ab-4c9a-9d2f-2e6e482d3591",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T20:04:19.386113",
+    "features": {
+      "suspicious_url_score": 0.5,
+      "domain_age_days": 23,
+      "has_ssl": false,
+      "redirect_count": 0,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://claude.ai/chat/2a686fae-ef75-408c-8bba-0b8d85a8fbbd",
+    "isPhishing": true,
+    "timestamp": "2025-03-21T20:57:45.682128",
+    "features": {
+      "suspicious_url_score": 0.2,
+      "domain_age_days": 1,
+      "has_ssl": false,
+      "redirect_count": 0,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://huggingface.co/datasets/ealvaradob/phishing-dataset",
+    "isPhishing": true,
+    "timestamp": "2025-03-21T20:57:56.240237",
+    "features": {
+      "suspicious_url_score": 0.0,
+      "domain_age_days": 27,
+      "has_ssl": true,
+      "redirect_count": 1,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://www.linkedin.com/company/kridaverse/?originalSubdomain=in",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T20:58:03.547559",
+    "features": {
+      "suspicious_url_score": 0.0,
+      "domain_age_days": 9,
+      "has_ssl": true,
+      "redirect_count": 0,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://www.kaggle.com/datasets/shashwatwork/web-page-phishing-detection-dataset",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T20:58:51.895571",
+    "features": {
+      "suspicious_url_score": 0.2,
+      "domain_age_days": 10,
+      "has_ssl": true,
+      "redirect_count": 0,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://www.kaggle.com/datasets/shashwatwork/web-page-phishing-detection-dataset",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T21:00:01.696023",
+    "features": {
+      "suspicious_url_score": 0.2,
+      "domain_age_days": 27,
+      "has_ssl": false,
+      "redirect_count": 1,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://www.kaggle.com/code/pulavendranselvaraj/webphishing-modeltraining-using-pytorch",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T21:00:19.816381",
+    "features": {
+      "suspicious_url_score": 0.0,
+      "domain_age_days": 6,
+      "has_ssl": false,
+      "redirect_count": 1,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://www.kaggle.com/code/pulavendranselvaraj/webphishing-modeltraining-using-pytorch",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T21:00:24.681849",
+    "features": {
+      "suspicious_url_score": 0.0,
+      "domain_age_days": 22,
+      "has_ssl": true,
+      "redirect_count": 1,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://grok.com/chat/890a958e-46ab-4c9a-9d2f-2e6e482d3591",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T21:01:29.870033",
+    "features": {
+      "suspicious_url_score": 0.5,
+      "domain_age_days": 2,
+      "has_ssl": false,
+      "redirect_count": 0,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://huggingface.co/Qwen/QwQ-32B",
+    "isPhishing": true,
+    "timestamp": "2025-03-21T21:07:48.473073",
+    "features": {
+      "suspicious_url_score": 0.0,
+      "domain_age_days": 24,
+      "has_ssl": false,
+      "redirect_count": 1,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://chatgpt.com/c/67a560c5-a210-8000-b80c-1860bb8f3c7e",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T21:08:00.012889",
+    "features": {
+      "suspicious_url_score": 0.5,
+      "domain_age_days": 21,
+      "has_ssl": true,
+      "redirect_count": 1,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://grok.com/chat/890a958e-46ab-4c9a-9d2f-2e6e482d3591",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T21:10:49.469226",
+    "features": {
+      "suspicious_url_score": 0.5,
+      "domain_age_days": 23,
+      "has_ssl": true,
+      "redirect_count": 1,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://grok.com/chat/890a958e-46ab-4c9a-9d2f-2e6e482d3591",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T21:10:56.445995",
+    "features": {
+      "suspicious_url_score": 0.5,
+      "domain_age_days": 12,
+      "has_ssl": false,
+      "redirect_count": 1,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://claude.ai/chat/2a686fae-ef75-408c-8bba-0b8d85a8fbbd",
+    "isPhishing": true,
+    "timestamp": "2025-03-21T21:11:01.969626",
+    "features": {
+      "suspicious_url_score": 0.2,
+      "domain_age_days": 9,
+      "has_ssl": true,
+      "redirect_count": 1,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://grok.com/chat/890a958e-46ab-4c9a-9d2f-2e6e482d3591",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T21:21:47.095199",
+    "features": {
+      "suspicious_url_score": 0.5,
+      "domain_age_days": 17,
+      "has_ssl": true,
+      "redirect_count": 0,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://grok.com/chat/890a958e-46ab-4c9a-9d2f-2e6e482d3591",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T21:21:47.557476",
+    "features": {
+      "suspicious_url_score": 0.5,
+      "domain_age_days": 29,
+      "has_ssl": false,
+      "redirect_count": 1,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://grok.com/chat/890a958e-46ab-4c9a-9d2f-2e6e482d3591",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T21:21:47.707604",
+    "features": {
+      "suspicious_url_score": 0.5,
+      "domain_age_days": 22,
+      "has_ssl": false,
+      "redirect_count": 1,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://grok.com/chat/890a958e-46ab-4c9a-9d2f-2e6e482d3591",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T21:32:41.183682",
+    "features": {
+      "suspicious_url_score": 0.5,
+      "domain_age_days": 13,
+      "has_ssl": true,
+      "redirect_count": 1,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://grok.com/chat/890a958e-46ab-4c9a-9d2f-2e6e482d3591",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T21:33:57.951659",
+    "features": {
+      "suspicious_url_score": 0.5,
+      "domain_age_days": 8,
+      "has_ssl": true,
+      "redirect_count": 1,
+      "similarity_flag": false
+    }
+  },
+  {
+    "url": "https://grok.com/chat/890a958e-46ab-4c9a-9d2f-2e6e482d3591",
+    "isPhishing": false,
+    "timestamp": "2025-03-21T21:34:45.106602",
+    "features": {
+      "suspicious_url_score": 0.5,
+      "domain_age_days": 2,
+      "has_ssl": false,
+      "redirect_count": 0,
+      "similarity_flag": false
+    }
+  }
+]
