@@ -3,16 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phishing Detection</title>
+    <title>Advanced Phishing Protection</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
         body {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
+            justify-content: flex-start;
+            min-height: 400px;
+            width: 400px;
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             transition: background-color 0.3s, color 0.3s;
+            padding: 15px;
         }
 
         body.light {
@@ -25,6 +29,22 @@
             color: #f0f0f0;
         }
 
+        body.light.phishing {
+            background-color: #ffe0e0;
+        }
+
+        body.dark.phishing {
+            background-color: #5a1c1c;
+        }
+
+        body.light.safe {
+            background-color: #e0ffe0;
+        }
+
+        body.dark.safe {
+            background-color: #1c5a1c;
+        }
+
         .container {
             display: flex;
             align-items: center;
@@ -35,11 +55,12 @@
             border-radius: 10px;
             box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
             background-color: inherit;
+            margin-bottom: 15px;
         }
 
         .iconDisplay {
             font-size: 4rem;
-            margin-right: 70px;
+            margin-right: 20px;
         }
 
         .status {
@@ -47,7 +68,6 @@
             align-items: center;
             font-size: 1.5rem;
             font-weight: bold;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         .status.safe {
@@ -69,23 +89,325 @@
             width: 20px;
             height: 20px;
             animation: spin 1s linear infinite;
+            margin-right: 10px;
         }
 
         @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 8px 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        /* Educational panel styles */
+        .education-panel {
+            display: none;
+            width: 100%;
+            height: 100%;
+            background-color: inherit;
+            border-radius: 10px;
+            padding: 15px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .panel-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px;
+            margin: 0;
+        }
+
+        .red-flags-section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #c62828;
+        }
+
+        .red-flag-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .red-flag-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: rgba(255, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        .flag-icon {
+            font-size: 20px;
+            margin-right: 10px;
+        }
+
+        .tips-section {
+            margin-bottom: 20px;
+        }
+
+        .tip-carousel {
+            position: relative;
+            min-height: 200px;
+            margin-bottom: 10px;
+        }
+
+        .tip-slide {
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.05);
+            border-radius: 5px;
+        }
+
+        .tip-image {
+            width: 100%;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+            font-size: 40px;
+        }
+
+        .actions-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        /* Chart styles */
+        .charts-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        canvas {
+            margin-bottom: 15px;
+            max-width: 100%;
+        }
+
+        .confidence-bar-container {
+            width: 100%;
+            background: #ddd;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        #confidenceBar {
+            height: 100%;
+            transition: width 0.5s ease-out;
+        }
+
+        /* Accessibility features */
+        .accessibility-controls {
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .icon-button {
+            background: none;
+            border: none;
+            font-size: 16px;
+            margin-left: 5px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* New visual features */
+        .severity-indicator {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .severity-label {
+            font-size: 12px;
+            margin-right: 5px;
+        }
+
+        .severity-dots {
+            display: flex;
+        }
+
+        .severity-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 3px;
+            background-color: #ddd;
+        }
+
+        .severity-dot.active {
+            background-color: #c62828;
+        }
+
+        .main-button-row {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .main-button-row button {
+            flex: 1;
+            margin: 0 5px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div id="iconDisplay" class="iconDisplay">❓</div>
-        <div id="statusMessage" class="status">Checking...</div>
+    <!-- Accessibility Controls -->
+    <div class="accessibility-controls">
+        <button class="icon-button" id="toggleTheme" title="Toggle theme">🌙</button>
+        <button class="icon-button" id="increaseText" title="Increase text size">A+</button>
+        <button class="icon-button" id="decreaseText" title="Decrease text size">A-</button>
+        <button class="icon-button" id="toggleVoice" title="Toggle voice guidance">🔊</button>
     </div>
+
+    <!-- Main Panel -->
+    <div id="mainPanel">
+        <div class="container">
+            <div id="iconDisplay" class="iconDisplay">❓</div>
+            <div id="statusMessage" class="status">Checking...</div>
+        </div>
+
+        <!-- Severity Indicator -->
+        <div class="severity-indicator">
+            <span class="severity-label">Risk Level:</span>
+            <div class="severity-dots">
+                <div class="severity-dot" id="dot1"></div>
+                <div class="severity-dot" id="dot2"></div>
+                <div class="severity-dot" id="dot3"></div>
+                <div class="severity-dot" id="dot4"></div>
+                <div class="severity-dot" id="dot5"></div>
+            </div>
+        </div>
+
+        <div class="confidence-bar-container">
+            <div id="confidenceBar" style="width: 0%; background: #c62828;"></div>
+        </div>
+
+        <div class="charts-container">
+            <canvas id="analyticsChart" height="150"></canvas>
+        </div>
+
+        <div class="main-button-row">
+            <button id="learnMoreBtn" class="btn-primary" style="display: none;">Learn Why</button>
+            <button id="feedback" class="btn-danger">Disagree</button>
+            <button id="report" class="btn-danger">Report Phishing</button>
+        </div>
+
+        <div class="main-button-row">
+            <button id="downloadLogs" class="btn-primary">View Reports</button>
+            <button id="shareReport" class="btn-primary">Share Report</button>
+        </div>
+    </div>
+
+    <!-- Educational Panel -->
+    <div id="educationPanel" class="education-panel">
+        <div class="panel-header">
+            <h2 class="panel-title">Why We Flagged This Site</h2>
+            <button id="closeEducation" class="close-btn">×</button>
+        </div>
+
+        <div class="red-flags-section">
+            <h3 class="section-title">Red Flags Detected:</h3>
+            <ul id="redFlagsList" class="red-flag-list">
+                <!-- Red flags will be added here dynamically -->
+            </ul>
+        </div>
+
+        <div class="tips-section">
+            <h3 class="section-title">What to Look For:</h3>
+            <div id="tipsCarousel" class="tip-carousel">
+                <!-- Tips will be added here dynamically -->
+            </div>
+            <button id="nextTip" class="btn-primary">Next Tip</button>
+        </div>
+
+        <div class="charts-container">
+            <canvas id="featureRadarChart" height="200"></canvas>
+        </div>
+
+        <button id="understoodBtn" class="btn-success btn-block">I Understand</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="popup.js"></script>
 </body>
 </html>
