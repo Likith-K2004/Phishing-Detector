@@ -1,14 +1,1 @@
-[
-  {
-    "url": "https://pcmirror.cc/pv/",
-    "isPhishing": true,
-    "timestamp": "2025-03-22T09:56:11.370300",
-    "features": {
-      "suspicious_url_score": 0.0,
-      "domain_age_days": 21,
-      "has_ssl": true,
-      "redirect_count": 0,
-      "similarity_flag": false
-    }
-  }
-]]
+[]

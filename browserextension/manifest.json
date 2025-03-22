@@ -1,5 +1,5 @@
 {
-  "name": "Phishing Detector",
+  "name": "Phishing Detector Sidebar",
   "version": "1.0",
   "manifest_version": 3,
   "host_permissions": [
@@ -18,7 +18,8 @@
     "service_worker": "background.js"
   },
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "sidebar.html"
+
   },
   "content_scripts": [
     {

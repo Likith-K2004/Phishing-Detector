@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Detector</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 320px;
+            height: 100vh;
+            overflow-y: auto;
+            background-color: #ffffff;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        }
+
+        body.dark {
+            background-color: #1e1e1e;
+            color: #f0f0f0;
+        }
+
+        body.light.phishing {
+            background-color: #ffe0e0 !important;
+        }
+
+        body.dark.phishing {
+            background-color: #5a1c1c !important;
+        }
+
+        body.light.safe {
+            background-color: #e0ffe0 !important;
+        }
+
+        body.dark.safe {
+            background-color: #1c5a1c !important;
+        }
+
+        .sidebar-header {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: inherit;
+            z-index: 10;
+        }
+
+        .sidebar-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .sidebar-content {
+            padding: 15px;
+        }
+
+        .url-input-container {
+            margin-bottom: 15px;
+        }
+
+        #urlInput {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .analyze-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 12px;
+            margin-top: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        .analyze-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .results-container {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .result-icon {
+            font-size: 2rem;
+            margin-right: 10px;
+        }
+
+        .result-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .result-title.safe {
+            color: #2e7d32;
+        }
+
+        .result-title.phishing {
+            color: #c62828;
+        }
+
+        .confidence-bar-container {
+            width: 100%;
+            background: #ddd;
+            height: 16px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        #confidenceBar {
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease-out;
+            background-color: #c62828;
+        }
+
+        .severity-indicator {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .severity-label {
+            font-size: 12px;
+            margin-right: 5px;
+        }
+
+        .severity-dots {
+            display: flex;
+        }
+
+        .severity-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 3px;
+            background-color: #ddd;
+        }
+
+        .severity-dot.active {
+            background-color: #c62828 !important;
+        }
+
+        .technical-indicators {
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+        }
+
+        .indicators-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .indicator-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+
+        .indicator-name {
+            color: #666;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .action-btn {
+            border: none;
+            border-radius: 4px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .report-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .report-btn:hover {
+            background-color: #c82333;
+        }
+
+        .download-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .download-btn:hover {
+            background-color: #218838;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            display: none;
+        }
+
+        .spinner {
+            border: 3px solid rgba(0, 0, 0, 0.2);
+            border-top: 3px solid #007bff;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .badge-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .badge-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .toggle-container {
+            position: fixed;
+            right: 320px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            background-color: #007bff;
+            border-radius: 4px 0 0 4px;
+            width: 24px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: -3px 0 8px rgba(0,0,0,0.1);
+        }
+
+        .toggle-icon {
+            color: white;
+            font-size: 14px;
+        }
+
+        #collapseBtn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        /* Theme toggle */
+        .theme-toggle {
+            position: absolute;
+            top: 15px;
+            right: 50px;
+            cursor: pointer;
+        }
+
+        /* Educational panel styles */
+        .education-panel {
+            display: none;
+            width: 100%;
+            height: 100%;
+            background-color: inherit;
+            border-radius: 10px;
+            padding: 15px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .panel-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px;
+            margin: 0;
+        }
+
+        .red-flags-section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #c62828;
+        }
+
+        .red-flag-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .red-flag-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: rgba(255, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        .flag-icon {
+            font-size: 20px;
+            margin-right: 10px;
+        }
+
+        .flag-text {
+            font-size: 0.9rem;
+        }
+
+        .tips-section {
+            margin-bottom: 20px;
+        }
+
+        .tip-carousel {
+            position: relative;
+            min-height: 150px;
+            margin-bottom: 10px;
+        }
+
+        .tip-slide {
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.05);
+            border-radius: 5px;
+            display: none;
+        }
+
+        .tip-slide.active {
+            display: block;
+        }
+
+        .tip-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body class="light">
+    <div class="toggle-container">
+        <button id="collapseBtn">
+            <div class="toggle-icon">›</div>
+        </button>
+    </div>
+
+    <div class="sidebar-header">
+        <h1 class="sidebar-title">Phishing Detector</h1>
+        <span class="theme-toggle" id="themeToggle">🌙</span>
+        <button class="close-btn" id="closeBtn">×</button>
+    </div>
+
+    <div class="sidebar-content">
+        <div class="url-input-container">
+            <label for="urlInput">Enter URL to check:</label>
+            <input type="text" id="urlInput" placeholder="https://example.com">
+            <button class="analyze-btn" id="analyzeBtn">Analyze URL</button>
+        </div>
+
+        <div class="loading" id="loadingIndicator">
+            <div class="spinner"></div>
+            <p>Analyzing URL...</p>
+        </div>
+
+        <div class="results-container" id="resultsContainer">
+            <div class="result-header">
+                <div class="result-icon" id="resultIcon">❓</div>
+                <div class="result-title" id="resultTitle">Checking...</div>
+            </div>
+
+            <div class="confidence-bar-container">
+                <div id="confidenceBar"></div>
+            </div>
+
+            <div class="severity-indicator">
+                <span class="severity-label">Risk Level:</span>
+                <div class="severity-dots">
+                    <div class="severity-dot" id="dot1"></div>
+                    <div class="severity-dot" id="dot2"></div>
+                    <div class="severity-dot" id="dot3"></div>
+                    <div class="severity-dot" id="dot4"></div>
+                    <div class="severity-dot" id="dot5"></div>
+                </div>
+            </div>
+
+            <div class="technical-indicators">
+                <h3 class="indicators-title">Technical Indicators</h3>
+                <div class="indicator-item">
+                    <span class="indicator-name">Domain Age:</span>
+                    <span id="domainAge">-</span>
+                </div>
+                <div class="indicator-item">
+                    <span class="indicator-name">SSL Certificate:</span>
+                    <span id="sslStatus">-</span>
+                </div>
+                <div class="indicator-item">
+                    <span class="indicator-name">Suspicious URL Score:</span>
+                    <span id="urlScore">-</span>
+                </div>
+                <div class="indicator-item">
+                    <span class="indicator-name">Redirect Count:</span>
+                    <span id="redirectCount">-</span>
+                </div>
+            </div>
+
+            <!-- Charts container with explicit dimensions and visibility -->
+            <div class="charts-container" id="chartsContainer" style="margin-top: 15px; display: block; width: 100%;">
+                <h3 class="indicators-title">Risk Analysis</h3>
+                <canvas id="analyticsChart" width="280" height="150" style="margin-bottom: 20px;"></canvas>
+                <canvas id="featureRadarChart" width="280" height="180"></canvas>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-btn report-btn" id="reportBtn">Report Phishing</button>
+                <button class="action-btn download-btn" id="downloadBtn">Download Report</button>
+            </div>
+            
+            <!-- Add Learn Why button -->
+            <button id="learnMoreBtn" class="analyze-btn" style="margin-top: 15px; display: none;">Learn Why It's Flagged</button>
+        </div>
+        
+        <!-- Educational Panel -->
+        <div id="educationPanel" class="education-panel">
+            <div class="panel-header">
+                <h2 class="panel-title">Why We Flagged This Site</h2>
+                <button id="closeEducation" class="close-btn">×</button>
+            </div>
+
+            <div class="red-flags-section">
+                <h3 class="section-title">Red Flags Detected:</h3>
+                <ul id="redFlagsList" class="red-flag-list">
+                    <!-- Red flags will be added here dynamically -->
+                </ul>
+            </div>
+
+            <div class="tips-section">
+                <h3 class="section-title">What to Look For:</h3>
+                <div id="tipsCarousel" class="tip-carousel">
+                    <!-- Tips will be added here dynamically -->
+                </div>
+                <button id="nextTip" class="analyze-btn" style="margin-top: 10px;">Next Tip</button>
+            </div>
+
+            <button id="understoodBtn" class="analyze-btn btn-block">I Understand</button>
+        </div>
+    </div>
+
+    <script src="chart.js"></script>
+    <script src="jspdf.umd.min.js"></script>
+    <script>
+        // Verify Chart.js is loaded correctly
+        window.addEventListener('load', function() {
+            if (typeof window.Chart === 'undefined') {
+                console.error('Chart.js not available - graphs will not be displayed');
+                document.getElementById('chartsContainer').innerHTML = '<p style="color: red; padding: 10px;">Charts could not be loaded. The Chart.js library is missing.</p>';
+            } else {
+                console.log('Chart.js library loaded successfully');
+            }
+            
+            // Also verify jsPDF is loaded correctly
+            if (typeof window.jspdf === 'undefined' && typeof jspdf === 'undefined' && typeof jsPDF === 'undefined') {
+                console.error('jsPDF not available - PDF generation may fail');
+            } else {
+                console.log('jsPDF library loaded successfully');
+            }
+        });
+    </script>
+    <script src="sidebar.js"></script>
+</body>
+</html>
