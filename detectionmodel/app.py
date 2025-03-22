@@ -17,6 +17,8 @@ from io import BytesIO
 from PIL import Image
 import base64
 import random  # For demo purposes only, replace with actual implementation
+from functools import wraps
+import threading
 
 # Load Naive Bayes and Logistic Regression models
 naive_bayes_model = joblib.load('naive_bayes_model.pkl')
@@ -184,22 +186,26 @@ def predict_phishing(url):
         phishing_score = (0.25 * nb_phishing_confidence + 0.25 * lr_phishing_confidence + 0.5 * bert_phishing_confidence)
         legitimate_score = (0.25 * nb_legitimate_confidence + 0.25 * lr_legitimate_confidence + 0.5 * bert_legitimate_confidence)
 
-        # Adjust based on additional features
+        # Adjust based on additional features - use clamping to prevent negative values
         if features["domain_age_days"] < 30:  # Very new domain
-            phishing_score += 0.1
-            legitimate_score -= 0.1
+            phishing_score = min(1.0, phishing_score + 0.1)
+            legitimate_score = max(0.0, legitimate_score - 0.1)
         if not features["has_ssl"]:
-            phishing_score += 0.1
-            legitimate_score -= 0.1
+            phishing_score = min(1.0, phishing_score + 0.1)
+            legitimate_score = max(0.0, legitimate_score - 0.1)
         if features["redirect_count"] > 2:
-            phishing_score += 0.05 * features["redirect_count"]
-            legitimate_score -= 0.05 * features["redirect_count"]
+            phishing_score = min(1.0, phishing_score + 0.05 * features["redirect_count"])
+            legitimate_score = max(0.0, legitimate_score - 0.05 * features["redirect_count"])
 
-        # Normalize scores
+        # Normalize scores - ensure we don't divide by zero
         total = phishing_score + legitimate_score
         if total > 0:
-            phishing_score /= total
-            legitimate_score /= total
+            phishing_score = min(1.0, phishing_score / total)
+            legitimate_score = min(1.0, legitimate_score / total)
+        else:
+            # Handle the edge case where both scores are zero
+            phishing_score = 0.5
+            legitimate_score = 0.5
 
         # Apply feedback if available
         with open(FEEDBACK_FILE, 'r') as f:
@@ -216,10 +222,11 @@ def predict_phishing(url):
         print(f"Final Prediction: {'phishing' if final_prediction else 'legitimate'}")
         print(f"Combined Confidence - Legitimate: {legitimate_score:.3f}, Phishing: {phishing_score:.3f}")
 
+        # Ensure we always return valid JSON-serializable confidence values
         return {
             'isPhishing': final_prediction,
-            'legitimateConfidence': legitimate_score,
-            'phishingConfidence': phishing_score,
+            'legitimateConfidence': float(max(0.0, min(1.0, legitimate_score))),
+            'phishingConfidence': float(max(0.0, min(1.0, phishing_score))),
             'similarityFlag': features["similarity_flag"],
             'nbResult': {
                 'isPhishing': nb_is_phishing,
@@ -260,7 +267,64 @@ def rate_limit_check(ip):
     RATE_LIMIT[ip].append(current_time)
     return True
 
+# Global rate limiting
+request_history = {}
+rate_limit_lock = threading.Lock()
+
+# Rate limiting decorator with domain-level limits
+def rate_limit(max_requests=5, window_seconds=60):
+    def decorator(f):
+        @wraps(f)
+        def wrapped_function(*args, **kwargs):
+            # Get client IP
+            client_ip = request.remote_addr
+            current_time = time.time()
+            
+            # Get domain from request to implement domain-level rate limiting
+            try:
+                data = request.get_json()
+                url = data.get('url', '')
+                from urllib.parse import urlparse
+                domain = urlparse(url).netloc
+                key = f"{client_ip}:{domain}" if domain else client_ip
+            except:
+                key = client_ip  # Fallback to IP-based limiting if domain extraction fails
+            
+            with rate_limit_lock:
+                # Initialize or clean up old requests
+                if key not in request_history:
+                    request_history[key] = []
+                
+                # Remove timestamps older than the window
+                request_history[key] = [ts for ts in request_history[key] 
+                                      if current_time - ts < window_seconds]
+                
+                # Check if rate limit exceeded
+                if len(request_history[key]) >= max_requests:
+                    # Calculate retry after
+                    oldest_request = min(request_history[key])
+                    retry_after = max(1, int(window_seconds - (current_time - oldest_request)))
+                    
+                    # 429 response with retry header
+                    response = jsonify({
+                        "error": "Rate limit exceeded",
+                        "message": f"Too many requests, please try again in {retry_after} seconds"
+                    })
+                    response.status_code = 429
+                    response.headers["Retry-After"] = str(retry_after)
+                    return response
+                
+                # Add current request timestamp
+                request_history[key].append(current_time)
+            
+            # Process the request normally
+            return f(*args, **kwargs)
+        return wrapped_function
+    return decorator
+
+# Apply rate limit to your route
 @app.route('/check-url', methods=['POST'])
+@rate_limit(max_requests=3, window_seconds=60)  # Max 3 requests per minute per domain
 def check_url():
     try:
         # Rate limiting
@@ -287,21 +351,25 @@ def check_url():
         if 'status' in result and result['status'] == 'error':
             return jsonify({
                 "status": "error",
-                "message": "Error analyzing URL",
+                "message": "Error analyzing URL: " + result['message'],
                 "isPhishing": False
             }), 500
 
         # Log the detection
-        with open(LOGS_FILE, 'r') as f:
-            logs = json.load(f)
-        logs.append({
-            "url": url,
-            "isPhishing": result['isPhishing'],
-            "timestamp": datetime.now().isoformat(),
-            "features": result['features']
-        })
-        with open(LOGS_FILE, 'w') as f:
-            json.dump(logs, f, indent=2)
+        try:
+            with open(LOGS_FILE, 'r') as f:
+                logs = json.load(f)
+            logs.append({
+                "url": url,
+                "isPhishing": result['isPhishing'],
+                "timestamp": datetime.now().isoformat(),
+                "features": result['features']
+            })
+            with open(LOGS_FILE, 'w') as f:
+                json.dump(logs, f, indent=2)
+        except Exception as log_error:
+            print(f"Error logging detection: {str(log_error)}")
+            # Continue even if logging fails
 
         message = "Warning! Phishing site detected!" if result['isPhishing'] else "This site is safe."
         if result['similarityFlag']:
@@ -322,11 +390,63 @@ def check_url():
         })
 
     except Exception as e:
+        import traceback
+        traceback.print_exc()  # Print the full error stack trace for debugging
         return jsonify({
             "status": "error",
             "message": str(e),
             "isPhishing": False
         }), 500
+
+# Add a global rate limiter for all other routes
+@app.before_request
+def global_rate_limiter():
+    # Skip for static resources
+    if request.path.startswith('/static/'):
+        return None
+        
+    # Global rate limit - 30 requests per minute across all clients
+    global_key = 'global'
+    current_time = time.time()
+    window_seconds = 60
+    max_requests = 30
+    
+    with rate_limit_lock:
+        if global_key not in request_history:
+            request_history[global_key] = []
+            
+        # Remove timestamps older than the window
+        request_history[global_key] = [ts for ts in request_history[global_key] 
+                                    if current_time - ts < window_seconds]
+                                    
+        # Check if global rate limit exceeded
+        if len(request_history[global_key]) >= max_requests:
+            # Calculate retry after
+            oldest_request = min(request_history[global_key])
+            retry_after = max(1, int(window_seconds - (current_time - oldest_request)))
+            
+            # 429 response with retry header
+            response = jsonify({
+                "error": "Global rate limit exceeded",
+                "message": f"Server is busy, please try again in {retry_after} seconds"
+            })
+            response.status_code = 429
+            response.headers["Retry-After"] = str(retry_after)
+            return response
+            
+        # Add current request timestamp
+        request_history[global_key].append(current_time)
+    
+    return None
+
+# Add error handling for server errors
+@app.errorhandler(Exception)
+def handle_exception(e):
+    app.logger.error(f"Unhandled exception: {str(e)}")
+    return jsonify({
+        "error": "Server error",
+        "message": str(e)
+    }), 500
 
 @app.route('/report-url', methods=['POST'])
 def report_url():
