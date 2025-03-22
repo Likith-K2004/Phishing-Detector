@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Phishing Protection</title>
-    <link rel="stylesheet" href="styles.css">
     <style>
         body {
             display: flex;
@@ -17,6 +16,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             transition: background-color 0.3s, color 0.3s;
             padding: 15px;
+            box-sizing: border-box;
         }
 
         body.light {
@@ -30,19 +30,19 @@
         }
 
         body.light.phishing {
-            background-color: #ffe0e0;
+            background-color: #ffe0e0 !important;
         }
 
         body.dark.phishing {
-            background-color: #5a1c1c;
+            background-color: #5a1c1c !important;
         }
 
         body.light.safe {
-            background-color: #e0ffe0;
+            background-color: #e0ffe0 !important;
         }
 
         body.dark.safe {
-            background-color: #1c5a1c;
+            background-color: #1c5a1c !important;
         }
 
         .container {
@@ -82,6 +82,13 @@
             color: #ef6c00;
         }
 
+        .status.loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
         .spinner {
             border: 3px solid rgba(0, 0, 0, 0.2);
             border-top: 3px solid #333;
@@ -108,12 +115,17 @@
             transition: background-color 0.3s;
         }
 
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         .btn-primary {
             background-color: #007bff;
             color: white;
         }
 
-        .btn-primary:hover {
+        .btn-primary:hover:not(:disabled) {
             background-color: #0056b3;
         }
 
@@ -122,7 +134,7 @@
             color: white;
         }
 
-        .btn-danger:hover {
+        .btn-danger:hover:not(:disabled) {
             background-color: #c82333;
         }
 
@@ -131,7 +143,7 @@
             color: white;
         }
 
-        .btn-success:hover {
+        .btn-success:hover:not(:disabled) {
             background-color: #218838;
         }
 
@@ -204,6 +216,10 @@
             margin-right: 10px;
         }
 
+        .flag-text {
+            font-size: 0.9rem;
+        }
+
         .tips-section {
             margin-bottom: 20px;
         }
@@ -218,6 +234,11 @@
             padding: 15px;
             background-color: rgba(0, 0, 0, 0.05);
             border-radius: 5px;
+            display: none;
+        }
+
+        .tip-slide.active {
+            display: block;
         }
 
         .tip-image {
@@ -228,6 +249,8 @@
             justify-content: center;
             margin: 10px 0;
             font-size: 40px;
+            background-color: #e0e0e0;
+            color: #666;
         }
 
         .actions-row {
@@ -287,6 +310,10 @@
             padding: 5px;
         }
 
+        .icon-button:hover {
+            opacity: 0.7;
+        }
+
         /* New visual features */
         .severity-indicator {
             display: flex;
@@ -313,7 +340,7 @@
         }
 
         .severity-dot.active {
-            background-color: #c62828;
+            background-color: #c62828 !important;
         }
 
         .main-button-row {
@@ -326,6 +353,27 @@
         .main-button-row button {
             flex: 1;
             margin: 0 5px;
+        }
+
+        /* Feedback form styles */
+        #feedbackForm {
+            width: 100%;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.05);
+            border-radius: 5px;
+        }
+
+        #feedbackForm h3 {
+            font-size: 16px;
+            margin: 0 0 10px 0;
+        }
+
+        #feedbackText {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: inherit;
         }
     </style>
 </head>
@@ -342,7 +390,15 @@
     <div id="mainPanel">
         <div class="container">
             <div id="iconDisplay" class="iconDisplay">❓</div>
-            <div id="statusMessage" class="status">Checking...</div>
+            <div id="statusMessage" class="status loading">
+                <div class="spinner"></div>
+                <p>Checking...</p>
+            </div>
+        </div>
+
+        <!-- Confidence Bar -->
+        <div class="confidence-bar-container">
+            <div id="confidenceBar" style="width: 0%; background: #c62828;"></div>
         </div>
 
         <!-- Severity Indicator -->
@@ -357,23 +413,29 @@
             </div>
         </div>
 
-        <div class="confidence-bar-container">
-            <div id="confidenceBar" style="width: 0%; background: #c62828;"></div>
-        </div>
-
+        <!-- Analytics Chart -->
         <div class="charts-container">
             <canvas id="analyticsChart" height="150"></canvas>
         </div>
 
+        <!-- Action Buttons -->
         <div class="main-button-row">
             <button id="learnMoreBtn" class="btn-primary" style="display: none;">Learn Why</button>
-            <button id="feedback" class="btn-danger">Disagree</button>
             <button id="report" class="btn-danger">Report Phishing</button>
         </div>
 
         <div class="main-button-row">
-            <button id="downloadLogs" class="btn-primary">View Reports</button>
-            <button id="shareReport" class="btn-primary">Share Report</button>
+            <button id="downloadReport" class="btn-primary">Download Report</button>
+        </div>
+
+        <!-- Feedback Form -->
+        <div id="feedbackForm" style="display: none; margin-top: 15px;">
+            <h3>Provide Feedback</h3>
+            <textarea id="feedbackText" rows="3" placeholder="Why do you disagree with this result?"></textarea>
+            <div class="main-button-row">
+                <button id="submitFeedback" class="btn-primary">Submit</button>
+                <button id="cancelFeedback" class="btn-danger">Cancel</button>
+            </div>
         </div>
     </div>
 
@@ -406,8 +468,29 @@
         <button id="understoodBtn" class="btn-success btn-block">I Understand</button>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- External Libraries -->
+    <script src="chart.js"></script>
+    <script src="jspdf.umd.min.js"></script>
+    <script>
+        // Verify jsPDF is loaded correctly
+        window.addEventListener('load', function() {
+            if (typeof window.jspdf === 'undefined') {
+                console.warn('jsPDF not detected in window.jspdf - trying alternative references');
+                // Check for alternative ways jsPDF might be exposed
+                if (typeof jspdf !== 'undefined') {
+                    window.jspdf = jspdf;
+                    console.log('Found jsPDF in global scope');
+                } else if (typeof jsPDF !== 'undefined') {
+                    window.jspdf = { jsPDF: jsPDF };
+                    console.log('Found jsPDF constructor in global scope');
+                } else {
+                    console.error('jsPDF not available - PDF generation may fail');
+                }
+            } else {
+                console.log('jsPDF library loaded successfully');
+            }
+        });
+    </script>
     <script src="popup.js"></script>
 </body>
 </html>

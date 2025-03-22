@@ -11,7 +11,6 @@
     "tabs",
     "webNavigation",
     "webRequest",
-    "webRequestBlocking",
     "storage",
     "notifications"
   ],
@@ -24,7 +23,14 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["content.js"]
+      "js": ["content.js"],
+      "permissions": ["tabs"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["jspdf.umd.min.js", "chart.js"],
+      "matches": ["<all_urls>"]
     }
   ]
 }

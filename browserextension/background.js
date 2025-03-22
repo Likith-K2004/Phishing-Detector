@@ -142,5 +142,17 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             sendResponse(results);
         });
         return true; // Required for async response
+    } else if (request.action === "generateReport") {
+        // Get the current tab URL and check it
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            const url = tabs[0].url;
+            checkUrl(url).then(data => {
+                sendResponse({status: "success", data: data});
+            }).catch(error => {
+                console.error("Error generating report:", error);
+                sendResponse({status: "error", message: error.message});
+            });
+        });
+        return true; // Required for async response
     }
 });
